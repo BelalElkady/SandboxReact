@@ -1,2 +1,0 @@
-# SandboxReact
-Created with CodeSandbox

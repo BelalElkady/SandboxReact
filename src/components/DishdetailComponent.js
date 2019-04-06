@@ -1,63 +1,66 @@
 import React, { Component } from "react";
 import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
+
 class DishDetail extends Component {
   constructor(props) {
     super(props);
-   
+    this.renderDish = this.renderDish.bind(this);
+    this.renderComments = this.renderComments.bind(this);
   }
-
-  
 
   renderDish(dish) {
     if (dish != null) {
       return (
-        <div className="col-12 col-md-5 m-1">
-          <Card>
-            <CardImg top object src={dish.image} alt={dish.name} />
-            <CardBody>
-              <CardTitle>
-                <strong>{dish.name}</strong>
-              </CardTitle>
-              <CardText> {dish.description}</CardText>
-            </CardBody>
-          </Card>
-        </div>
+        <Card>
+          <CardImg top src={dish.image} alt={dish.name} />
+          <CardBody>
+            <CardTitle>
+              <strong>{dish.name}</strong>
+            </CardTitle>
+            <CardText> {dish.description}</CardText>
+          </CardBody>
+        </Card>
       );
     } else {
       return <div />;
     }
   }
 
-  renderComments(...dish) {
-     if (dish.comments != null) {
-      console.log("dsa");
-    dish.comments.map(element => {
+  renderComments(dish) {
+    if (dish != null) {
+      const listItems = dish.comments.map(element => (
+        <div key={element.id} className="container">
+          <li>
+            <p>{element.comment}</p>
+            <p>
+              <span>--</span>
+              <span>{element.author}</span>
+              <span>, {element.date}</span>
+            </p>
+          </li>
+        </div>
+      ));
       return (
-        // <div className="col-12 col-md-5 m-1">
-        //   <h4>Comments</h4>
-        //   <ul>
-        //     <li key={element.id}>
-        <p>{element.comment}</p>
-        //       <p>
-        //         <span>--</span>
-        //         <span>{element.author}</span>
-        //         <span>, {element.date}</span>
-        //       </p>
-        //     </li>
-        //   </ul>
-        // </div>
+        <ul className="list-unstyled">
+          <h4>Comments</h4>
+          {listItems}
+        </ul>
       );
-    });
-     } else {
-      console.log("dsfsda");
-      return <div gfdgfd/>;
-     }
+    } else {
+      return <div />;
+    }
   }
   render() {
     return (
-      <div>
-        {this.renderDish(this.props.dish)}
-        {this.renderComments(this.props.dish)}
+      <div className="container">
+        <div className="row">
+          <div className="col-12 col-md-5 m-1">
+            {this.renderDish(this.props.dish)}
+          </div>
+          <div className="col-12 col-md-5 m-1">
+            {this.renderComments(this.props.dish)}
+          </div>
+        </div>
       </div>
     );
   }

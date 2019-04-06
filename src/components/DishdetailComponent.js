@@ -35,7 +35,14 @@ class DishDetail extends Component {
             <p>
               <span>--</span>
               <span>{element.author}</span>
-              <span>, {element.date}</span>
+              <span>
+                {" "}
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit"
+                }).format(new Date(Date.parse(element.date)))}
+              </span>
             </p>
           </li>
         </div>

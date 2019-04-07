@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
+import PropTypes from "prop-types";
 
 class DishDetail extends Component {
   constructor(props) {
@@ -26,9 +27,9 @@ class DishDetail extends Component {
     }
   }
 
-  renderComments(dish) {
-    if (dish != null) {
-      const listItems = dish.comments.map(element => (
+  renderComments(comments) {
+  
+      const listItems = comments.map(element => (
         <div key={element.id} className="container">
           <li>
             <p>{element.comment}</p>
@@ -53,9 +54,7 @@ class DishDetail extends Component {
           {listItems}
         </ul>
       );
-    } else {
-      return <div />;
-    }
+
   }
   render() {
     return (
@@ -65,12 +64,13 @@ class DishDetail extends Component {
             {this.renderDish(this.props.dish)}
           </div>
           <div className="col-12 col-md-5 m-1">
-            {this.renderComments(this.props.dish)}
+            {this.props.dish && this.renderComments(this.props.dish.comments)}
           </div>
         </div>
       </div>
     );
   }
 }
+
 
 export default DishDetail;

@@ -9,7 +9,7 @@ class Main extends Component {
     super(props);
     this.state = {
       dishes: DISHES,
-      selectedDish: null
+      selectedDishId: null
     };
   }
 

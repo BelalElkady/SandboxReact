@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../App.css";
 import { Navbar, NavbarBrand } from "reactstrap";
 import Menu from "./MenuComponent";
-import DishDetail from "./DishdetailComponent";
+import DishWithId from "./DishWithIdComponent";
 import { DISHES } from "../shared/dishes";
 import { COMMENTS } from "../shared/comments";
 import { PROMOTIONS } from "../shared/promotions";
@@ -29,6 +29,7 @@ class Main extends Component {
         <Header />
         <Switch>
           <Route
+            exact
             path="/home"
             component={() => (
               <Home
@@ -43,10 +44,12 @@ class Main extends Component {
             )}
           />
           <Route
+            exact
             path="/menu"
             component={() => <Menu dishes={this.state.dishes} />}
           />
-          <Route path="/contactus" component={Contact} />
+          <Route path="/menu/:dishId" component={DishWithId} />
+          <Route exact path="/contactus" component={Contact} />
           <Redirect to="/home" />
         </Switch>
 

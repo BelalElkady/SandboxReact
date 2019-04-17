@@ -3,6 +3,7 @@ import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
 import { Link } from "react-router-dom";
 import Breadcrumb from "reactstrap/lib/Breadcrumb";
 import BreadcrumbItem from "reactstrap/lib/BreadcrumbItem";
+import CommentForm from "./CommentForm";
 function renderDish(dish) {
   if (dish != null) {
     return (
@@ -41,10 +42,14 @@ function renderComments(comments) {
     </div>
   ));
   return (
-    <ul className="list-unstyled">
-      <h4>Comments</h4>
-      {listItems}
-    </ul>
+    <div>
+      <ul className="list-unstyled">
+        <h4>Comments</h4>
+        {listItems}
+      </ul>
+
+      <CommentForm />
+    </div>
   );
 }
 const DishDetail = props => {

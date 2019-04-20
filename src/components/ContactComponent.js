@@ -135,7 +135,7 @@ class Contact extends Component {
               >
                 <i className="fa fa-phone" /> Call
               </a>
-              <a role="button" className="btn btn-info">
+              <a href="skype:belal.elkady1?call" role="button" className="btn btn-info">
                 <i className="fa fa-skype" /> Skype
               </a>
               <a

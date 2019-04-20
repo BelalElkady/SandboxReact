@@ -13,8 +13,8 @@ function RenderLeader(leaders) {
   const leader = leaders.map(leader => (
     <div key={leader.id} className="m-1">
       <Media className="m-1">
-        <Media left>
-          <Media object data-src={leader.image} />
+        <Media left className="m-2">
+          <Media object src={"http://localhost:3001/assets/" + leader.image} />
         </Media>
         <Media body className="m-1">
           <Media heading>{leader.name}</Media>

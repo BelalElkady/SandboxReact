@@ -1,34 +1,80 @@
 import React, { Component } from "react";
 import "../App.css";
-import { Navbar, NavbarBrand } from "reactstrap";
 import Menu from "./MenuComponent";
 import DishWithId from "./DishWithIdComponent";
-import { DISHES } from "../shared/dishes";
-import { COMMENTS } from "../shared/comments";
-import { PROMOTIONS } from "../shared/promotions";
-import { LEADERS } from "../shared/leaders";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
 import Home from "./HomeComponent";
 import Contact from "./ContactComponent";
 import About from "./AboutComponent";
 import { Switch, Route, Redirect } from "react-router-dom";
+import axios from 'axios';
+
+
+function getPromotions() {
+  return axios.get('http://localhost:3001/promotions');
+}
+
+function getDishes() {
+  return axios.get('http://localhost:3001/dishes');
+}
+
+function getLeaders() {
+  return axios.get('http://localhost:3001/leaders');
+}
+
+function getComments() {
+  return axios.get('http://localhost:3001/comments');
+}
+
+function getFeedback(){
+  return axios.get('http://localhost:3001/feedback');
+  }
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dishes: DISHES,
-      promotions: PROMOTIONS,
-      comments: COMMENTS,
-      leaders: LEADERS
+      dishes: [],
+      promotions: [],
+      comments: [],
+      leaders: [],
+      feedback:[]
     };
   }
 
+
+  async componentDidMount() {
+
+    // Make a request for a user with a given ID
+    axios.all([getPromotions(),getDishes(),getLeaders(),getComments(),getFeedback()])
+      .then(axios.spread((Promos,dishes,leaders,comments,feedback)=>{
+        // handle success
+         this.setState({
+          promotions:Promos.data,
+          dishes:dishes.data,
+          leaders:leaders.data,
+          comments: comments.data,
+          feedback:feedback.data
+          });
+  
+      }))
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }
   render() {
+
     return (
       <div>
         <Header />
-        <Switch>
+      
+        {
+      
+           <Switch>
           <Route
             exact
             path="/home"
@@ -57,7 +103,7 @@ class Main extends Component {
             component={() => <About leaders={this.state.leaders} />}
           />
           <Redirect to="/home" />
-        </Switch>
+              </Switch> }
 
         <Footer />
       </div>

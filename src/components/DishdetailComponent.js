@@ -8,7 +8,7 @@ function renderDish(dish) {
   if (dish != null) {
     return (
       <Card>
-        <CardImg top src={dish.image} alt={dish.name} />
+        <CardImg top src={"http://localhost:3001/assets/"+dish.image} alt={dish.name} />
         <CardBody>
           <CardTitle>
             <strong>{dish.name}</strong>
@@ -48,32 +48,40 @@ function renderComments(comments) {
         {listItems}
       </ul>
 
-      <CommentForm />
+      <CommentForm dishId={comments[0].dishId} />
     </div>
   );
 }
 const DishDetail = props => {
-  return (
-    <div className="container">
-      <div className="row">
-        <Breadcrumb>
-          <BreadcrumbItem>
-            <Link to="/home">Home</Link>
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <Link to="/menu">Menu</Link>
-          </BreadcrumbItem>
-          <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
-        </Breadcrumb>
-      </div>
-      <div className="row">
-        <div className="col-12 col-md-5 m-1">{renderDish(props.dish)}</div>
-        <div className="col-12 col-md-5 m-1">
-          {renderComments(props.comments)}
+  if (props.dish && props.comments){
+    return (
+      <div className="container">
+        <div className="row">
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/home">Home</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <Link to="/menu">Menu</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+          </Breadcrumb>
+        </div>
+        <div className="row">
+          <div className="col-12 col-md-5 m-1">{renderDish(props.dish)}</div>
+          <div className="col-12 col-md-5 m-1">
+            {renderComments(props.comments)}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+  else{
+    return(
+      <div/>
+    );
+  }
+  
 };
 
 export default DishDetail;

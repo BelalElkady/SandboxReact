@@ -11,15 +11,20 @@ import {
   Label
 } from "reactstrap";
 import FormFeedback from "reactstrap/lib/FormFeedback";
+
+import axios from 'axios';
 class CommentForm extends Component {
   constructor(props) {
     super(props);
     this.toggleModal = this.toggleModal.bind(this);
     this.handelOnChange = this.handelOnChange.bind(this);
     this.handleOnBlur = this.handleOnBlur.bind(this);
+    this.handleSubmit=this.handleSubmit.bind(this);
     this.state = {
       isModalOpen: false,
       username: "",
+      rate:"",
+      comment:"",
       usernameTouched: false
     };
   }
@@ -32,6 +37,23 @@ class CommentForm extends Component {
     this.setState({
       usernameTouched: true
     });
+  }
+  handleSubmit(e){
+    axios.post('http://localhost:3001/comments', {
+      dishId: this.props.dishId,
+      rating: this.state.rate,
+      comment: this.state.comment,
+      author: this.state.username,
+      date: new Date().toLocaleString()
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  //  e.preventDefault();
+    this.toggleModal();
   }
 
   validate(username) {
@@ -65,14 +87,15 @@ class CommentForm extends Component {
         <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
           <ModalBody>
-            <Form>
+            <Form onSubmit={this.handleSubmit}>
               <FormGroup>
                 <Label htmlFor="rate">Rating</Label>
                 <Input
                   type="select"
                   id="rate"
                   name="rate"
-                  innerRef={input => (this.rate = input)}
+                  onChange={this.handelOnChange}
+                  value={this.state.rate}
                 >
                   <option>1</option>
                   <option>2</option>
@@ -104,11 +127,12 @@ class CommentForm extends Component {
                   id="comment"
                   rows="6"
                   name="comment"
-                  innerRef={input => (this.comment = input)}
+                  onChange={this.handelOnChange}
+                  value={this.state.comment}
                 />
               </FormGroup>
 
-              <Button type="submit" value="submit" color="primary">
+              <Button type="submit" value="submit" color="primary"  disabled={errors.username !== ""||!this.state.usernameTouched}>
                 Submit
               </Button>
             </Form>
